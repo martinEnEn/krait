@@ -16,7 +16,7 @@ cursor = conn.cursor()
 # 定义要执行的SQL语句
 sql = """
 select * from t_ord 
-where `EDIT_FLAG` ='1100.10' and prod_type_nm = '鲜牛奶' limit 23;
+where `EDIT_FLAG` ='1100.10' and prod_type_nm = '鲜牛奶' limit 2;
 """
 # 执行SQL语句
 ret = cursor.execute(sql)
@@ -25,16 +25,22 @@ fields = cursor.description
 workbook = xlwt.Workbook()
 sheet = workbook.add_sheet('table_'+'t_order', cell_overwrite_ok=True)
 
+title = "管理后台订单销售数据统计"
+sheet.write_merge(0, 0, 0, 3, title)
+
 # 写上字段信息
-for field in range(0, len(fields)):
-    sheet.write(0, field, fields[field][0])
+# for field in range(0, len(fields)):
+#      sheet.write(0, field, fields[field][0])
+#     sheet.write(1, field, fields[field][0])
 
 # 获取并写入数据段信息
 row = 1
 col = 0
-for row in range(1, len(results)+1):
+# 先遍历行 再遍历列
+for row in range(0, len(results)+1):
     for col in range(0, len(fields)):
         sheet.write(row, col, u'%s' % results[row-1][col])
+        print(row, col, u'%s' % results[row-1][col])
 
 epath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 fileName = '/lky.xls'
@@ -51,12 +57,6 @@ if(os.path.isfile(exPath)):
     os.remove(exPath)
 
 workbook.save(exPath)
-# 遍历结果
-for row in results:
-    ord_postpone_cd = row[0]
-    NM_CN = row[1]
-    QTY = row[2]
-    CRT_TM = row[3]
 
 # 关闭光标对象
 cursor.close()
