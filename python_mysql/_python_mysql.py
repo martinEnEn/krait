@@ -10,13 +10,13 @@ import shutil
 import time
 
 # 连接database
-conn = pymysql.connect(host="47.98.229.80", port=3306, user="van", password="73ESckfa", database="mk", charset="utf8")
+conn = pymysql.connect(host="47.98.229.80", port=3306, user="van", password="", database="mk", charset="utf8")
 # 得到一个可以执行SQL语句的光标对象
 cursor = conn.cursor()
 # 定义要执行的SQL语句
 sql = """
 select * from t_ord 
-where `EDIT_FLAG` ='1100.10' and prod_type_nm = '鲜牛奶' limit 2;
+where `EDIT_FLAG` ='1100.10' and prod_type_nm = '鲜牛奶' limit 3;
 """
 # 执行SQL语句
 ret = cursor.execute(sql)
@@ -34,13 +34,26 @@ sheet.write_merge(0, 0, 0, 3, title)
 #     sheet.write(1, field, fields[field][0])
 
 # 获取并写入数据段信息
-row = 1
-col = 0
+# row = 1
+# col = 0
+print(len(results))
+print("--------------------------")
+alist = range(0, 4)
+elist = list(alist)
+print(elist)
+print('-------------------------')
+print('--------------------------')
+print(results[0][1])
+print("=========================")
+
 # 先遍历行 再遍历列
-for row in range(0, len(results)+1):
+for row in range(0, len(results)):
+    print(row)
     for col in range(0, len(fields)):
-        sheet.write(row, col, u'%s' % results[row-1][col])
-        print(row, col, u'%s' % results[row-1][col])
+        print(col, end="")
+        # sheet.write(row, col, u'%s' % results[row-1][col])
+        sheet.write(row+1, col, u'%s' % results[row][col])
+        # print(row, col, u'%s' % results[row][col])
 
 epath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 fileName = '/lky.xls'

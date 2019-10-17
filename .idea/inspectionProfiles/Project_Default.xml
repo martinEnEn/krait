@@ -4,7 +4,9 @@
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <list>
-          <option value="pymysql" />
+          <option value="sys" />
+          <option value="_python_email" />
+          <option value="_python_redis" />
         </list>
       </option>
     </inspection_tool>
